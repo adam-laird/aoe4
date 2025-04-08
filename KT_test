@@ -1,0 +1,33 @@
+
+current_age = 1
+Age_up_food_cost = [400,1200,2400]
+Age_up_gold_cost = [200,600,1200]
+Age_up_time = [60,45,45]
+villager_train_time = 20
+food_vils = 0
+fpm_sheep = 46.9
+food = 200
+wood_vills = 0
+wpm = 46.7
+wood = 100
+stone_vills = 0
+spm = 46.7
+stone = 0
+gold_vills = 0
+pilgrims = 0
+pilgrim_GPM = 130
+gpm = 44.2
+gold = 100
+tick_length = 20
+
+def update_resources(food, fpm, wood, wpm, stone, spm, gold, gpm):
+    food += (fpm / tick_length)
+    wood += (wpm / tick_length)
+    stone += (spm / tick_length)
+    gold += (gpm / tick_length)
+    
+def update_gold_from_pilgrims(gold, pilgrim_GPM, pilgrims):
+    gold += (pilgrims * pilgrim_GPM)
+
+def time_to_feudal():
+    
