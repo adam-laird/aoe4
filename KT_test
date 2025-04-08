@@ -1,33 +1,82 @@
 
+# Online Python - IDE, Editor, Compiler, Interpreter
+import random
+
 current_age = 1
+current_time = 0
+current_vils = 6
 Age_up_food_cost = [400,1200,2400]
 Age_up_gold_cost = [200,600,1200]
 Age_up_time = [60,45,45]
 villager_train_time = 20
 food_vils = 0
 fpm_sheep = 46.9
-food = 200
+food_start = 200
 wood_vills = 0
 wpm = 46.7
-wood = 100
+wood_start = 100
 stone_vills = 0
 spm = 46.7
-stone = 0
+stone_start = 0
 gold_vills = 0
 pilgrims = 0
 pilgrim_GPM = 130
 gpm = 44.2
-gold = 100
+gold_start = 100
 tick_length = 20
 
-def update_resources(food, fpm, wood, wpm, stone, spm, gold, gpm):
-    food += (fpm / tick_length)
-    wood += (wpm / tick_length)
-    stone += (spm / tick_length)
-    gold += (gpm / tick_length)
+def update_resources(food, fpm, food_vils, wood, wpm, wood_vills, stone, spm, stone_vills, gold, gpm, gold_vills):
+    food += ((fpm * food_vils) / tick_length)
+    wood += ((wpm * wood_vills) / tick_length)
+    stone += ((spm * stone_vills) / tick_length)
+    gold += ((gpm * gold_vills) / tick_length)
+    return food, wood, stone, gold
     
 def update_gold_from_pilgrims(gold, pilgrim_GPM, pilgrims):
     gold += (pilgrims * pilgrim_GPM)
-
-def time_to_feudal():
     
+def assign_vils(vils, fv, wv, sv, gv):
+    fv += vils
+    return fv
+    
+def add_villager(food_vils, wood_vills,stone_vills,gold_vills):
+    resource_vil = random.choice([food_vils, wood_vills,stone_vills,gold_vills])
+    print ("resource_vil")
+    gold_vills+=1
+    return gold_vills
+
+def time_to_feudal(current_time):
+    not_feudal = True
+    while not_feudal:
+        
+        if current_time ==0:
+            food_vils = 0
+            wood_vills = 0
+            stone_vills = 0
+            gold_vills = 0
+            food_vils = assign_vils(current_vils, food_vils, wood_vills, stone_vills, gold_vills)
+            current_time += tick_length
+            food = food_start
+            wood = wood_start
+            stone = stone_start
+            gold = gold_start
+        else:
+            print(current_time)
+            print(gold)
+            print(gold_vills)
+            print(fpm_sheep)
+            
+            food, wood, stone, gold = update_resources(food, fpm_sheep, food_vils, wood, wpm, wood_vills, stone, spm, stone_vills, gold, gpm, gold_vills)
+            if food >= Age_up_food_cost[current_age -1] and gold >= Age_up_gold_cost[current_age-1]:
+                print("TIME TO AGE UP: ", current_time/60, " MINS") 
+                not_feudal = False
+            else:
+                gold_vills = add_villager(food_vils, wood_vills,stone_vills,gold_vills)
+                current_time += tick_length
+    
+
+time_to_feudal(0)
+
+
+
+
